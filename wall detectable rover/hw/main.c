@@ -155,8 +155,9 @@ int main(void)
 	
 	int data1;
 	int data2;
+	int Workingtimer=0;
 	
-	while(1)
+	while(Workingtimer<7200) // one cirecle get 1/2 second, we system stop 30 min
 
 	{
 		int delaytime=30;
@@ -165,20 +166,51 @@ int main(void)
 		
 		if(data1<2 && data2<2)
 		{
+			for (int a=0; a<6; a++)
+			{
+				PORTB |= 1<<PINB0;
+				turn_right();
+				_delay_ms(delaytime);
+				stop();
+				_delay_ms(delaytime);
+			}
 			
+			forward();
+			_delay_ms(delaytime);
+			stop();
+			forward();
+			_delay_ms(delaytime);
+			stop();
+			
+			
+			
+			
+		}else if(data1<2)
+		{
+			for (int a=0; a<3; a++)
+			{
+				PORTB &= ~(1<<PINB0);
+				turn_right();
+				_delay_ms(delaytime);
+				stop();
+			}
+			forward();
+			_delay_ms(delaytime);
+			stop();
+			forward();
+			_delay_ms(delaytime);
+			stop();
+			
+			
+		}
+		else if(data2<1)
+		{
 			PORTB |= 1<<PINB0;
 			turn_right();
 			_delay_ms(delaytime);
 			stop();
-			
-		}else if(data1<2)
-		{
-			PORTB &= ~(1<<PINB0);
-			turn_right();
-			_delay_ms(delaytime);
-			stop();
-			
-		}else if(data2<2)
+		}
+		else if(data2<2)
 		{
 			forward();
 			_delay_ms(delaytime);
@@ -187,10 +219,17 @@ int main(void)
 		}else
 		{
 			turn_left();
+			_delay_ms(20);
+			stop();
+			
+			forward();
 			_delay_ms(delaytime);
 			stop();
+			
+			
 		}
 		
+		Workingtimer++;
 		
 		
 		/*
